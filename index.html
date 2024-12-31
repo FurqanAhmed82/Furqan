@@ -1,0 +1,403 @@
+AGENTHTML=
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css"
+            integrity="sha512-xnP2tOaCJnzp2d2IqKFcxuOiVCbuessxM6wuiolT9eeEJCyy0Vhcwa4zQvdrZNVqlqaxXhHqsSV1Ww7T2jSCUQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&amp;display=swap|Poppins" />
+        <link rel="stylesheet" href="https://appauth-static-website-dev.s3.ap-southeast-2.amazonaws.com/cxone-agentview.css" />
+    </head>
+    <body>
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This will open the payment page on a new tab. <br />
+                        Do you wish to continue?
+                    </div>
+                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button> <button type="button" class="btn btn-primary primary-button" id="confirmPaymentButton">Yes</button></div>
+                </div>
+            </div>
+        </div>
+        <var class="d-none" id="secureco_payment_url"></var> <var class="d-none" id="show_payment_button">1</var> <var class="d-none" id="in_or_outbound"></var> <var class="d-none" id="contact_state"></var>
+        <var class="d-none" id="show_customer_said">0</var> <var class="d-none" id="ccai_nlu_user_utterance"></var> <var class="d-none" id="display_customer_name">Katherine</var>
+        <var class="d-none" id="display_service_number">0488120076</var> <var class="d-none" id="display_account_number">——</var> <var class="d-none" id="transferred_flag">0</var> <var class="d-none" id="using_moa">1</var>
+        <var class="d-none" id="is_customer">1</var> <var class="d-none" id="transferhistory">[ ]</var> <var class="d-none" id="display_tas_name">Main IVR - 1300123456</var> <var class="d-none" id="lookup_performed_flag"></var>
+        <var class="d-none" id="api_profile_number_of_active_services">1</var> <var class="d-none" id="display_customer_id">80074993</var> <var class="d-none" id="display_calling_number">0414123456</var>
+        <var class="d-none" id="initial_master_contact_id">593407954778</var> <var class="d-none" id="display_jarvis_contact_id">80074122</var> <var class="d-none" id="ccai_auth_status"></var>
+        <var class="d-none" id="ccai_auth_contact_id"></var> <var class="d-none" id="ccai_auth_contact_matched"></var> <var class="d-none" id="ccai_auth_dob"></var> <var class="d-none" id="ccai_auth_otp_status"></var>
+        <var class="d-none" id="ccai_auth_postcode"></var> <var class="d-none" id="ccai_show_agentassist">0</var>
+        <div class="container-fluid">
+            <div class="row main-container">
+                <div class="col-8 no-gutters px-0" id="main-panel">
+                    <section id="header" class="shadow">
+                        <div id="header-contents" class="inbound_header d-none">
+                            <div class="header_contents">
+                                WAIT TIME <br />
+                                <b>00:00:06</b>
+                            </div>
+                            <div class="header_contents">
+                                TAS NAME <br />
+                                <b>Main IVR - 1300123456</b>
+                            </div>
+                            <div id="payment_button" class="header_contents d-none">
+								<div class="button-container"><button class="primary-button">Process Payment</button></div>
+								</div>
+							<div id="header-contents" class="outbound_header d-none">
+							<div class="header_contents"><b>Outbound Campaign - Connected</b></div>
+							</div>
+								<script>
+									if (skill === 'gcr_outbound') {
+									document.getElementById('payment_button').classList.remove('d-none');
+									ASSIGN global:show_payment_button = 1;
+									}
+								</script>
+                    </section>
+                    <section id="header-2" class="shadow d-none">
+                        <div id="header-contents-2" class="row utter_header">
+                            <div class="col-auto"><img src="https://agentwidgets.apps.aws.optus.com.au/content/dam/agentwidgets/cxone/doublebubble-voice.png" alt="Customer Said Icon" /></div>
+                            <div class="col-11">
+                                <div>
+                                    <b>CUSTOMER SAID</b> <br />
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="body">
+                        <div class="row mx-0">
+                            <div class="col col-auto custom-col data_content_left" id="customer_name">
+                                <a class="text_content"><b>Katherine</b></a>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="cust_not_found_btn">
+                                <span class="badge badge-danger"><b>Customer not found</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="cust_identified_chip">
+                                <span class="badge badge-primary"><b>Customer identified</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="third_party_chip">
+                                <span class="badge badge-primary"><b>Third Party Authority</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="transfer_btn">
+                                <span class="badge badge-warning"><b>Transferred</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="multi_serv_btn">
+                                <span class="badge badge-warning"><b>Multiple Services</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="moa_yes_btn">
+                                <span class="badge badge-primary"><b>Using MOA</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="moa_no_btn">
+                                <span class="badge badge-danger"><b>No MOA</b></span>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left d-none custom-chips" id="smb_btn">
+                                <span class="badge badge-primary"><b>Business</b></span>
+                            </div>
+                        </div>
+                        <div class="row mx-0 d-none" id="outbound_state">
+                            <div class="col col-auto custom-col data_content_left">
+                                <a id="contact_state">
+                                    <h4><b></b></h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mx-0 d-none" id="address_row">
+                            <div class="col col-auto custom-col data_content_left">
+                                <a id="display_suburb">
+                                    <h4><b>Sunbury, VIC</b></h4>
+                                </a>
+                            </div>
+                            <div class="col col-auto custom-col data_content_left">
+                                <a id="display_segment_details">
+                                    <h4><b>VIC Metro Melbourne North 011</b></h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mx-0 d-none" id="address_edited_row"><div class="col-12 custom-col">No suburb or market data found (service number was edited).</div></div>
+                        <div class="row mx-0 d-none" id="mfa_row">
+                            <div class="col-12 row d-none mfa_status" id="MFA_SUCCESS">
+                                <div class="col-6 custom-col d-flex">
+                                    <div class="mfa_title flex-grow-1"><span>MFA Complete</span></div>
+                                    <div class="mfa_title mfa_title_icon"><i class="bi bi-check-lg"></i></div>
+                                    <div class="mfa_arrow"></div>
+                                </div>
+                                <div class="col-6 custom-col">
+                                    <div class="mfa_description">
+                                        <span><strong>Next Step:&nbsp;</strong>&nbsp;Access customer account in JARVIS</span>
+                                        <span
+                                            class="mfa_tooltip_icon"
+                                            data-offset="42%p 10%p"
+                                            data-toggle="tooltip"
+                                            data-html="true"
+                                            title="In JARVIS MFA, select <strong>Reason code</strong> + use the <strong>Call ID</strong> below in Reference field"
+                                        >
+                                            <i class="bi bi-question-circle-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row d-none mfa_status" id="STEP1_INCOMPLETE">
+                                <div class="col-6 custom-col d-flex">
+                                    <div class="mfa_title flex-grow-1">
+                                        <span>MFA&nbsp;<strong>Attempted - Incomplete</strong></span>
+                                    </div>
+                                    <div class="mfa_title mfa_title_icon"><i class="bi bi-exclamation-lg"></i></div>
+                                    <div class="mfa_arrow"></div>
+                                </div>
+                                <div class="col-6 custom-col">
+                                    <div class="mfa_description">
+                                        <span><strong>Next Step:&nbsp;</strong>Complete JARVIS MFA</span>
+                                        <span class="mfa_tooltip_icon" data-offset="42%p 10%p" data-toggle="tooltip" data-html="true" title="MFA DOB + Postcode attempted but incomplete. <strong>Follow the usual MFA process.</strong>">
+                                            <i class="bi bi-question-circle-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row d-none mfa_status" id="STEP2_INCOMPLETE">
+                                <div class="col-6 custom-col d-flex">
+                                    <div class="mfa_title flex-grow-1">
+                                        <span><strong>One-time code&nbsp;</strong>incomplete</span>
+                                    </div>
+                                    <div class="mfa_title mfa_title_icon"><i class="bi bi-exclamation-lg"></i></div>
+                                    <div class="mfa_arrow"></div>
+                                </div>
+                                <div class="col-6 custom-col">
+                                    <div class="mfa_description">
+                                        <span><strong>Next Step:&nbsp;</strong>Send One-time code</span>
+                                        <span class="mfa_tooltip_icon" data-offset="42%p 10%p" data-toggle="tooltip" data-html="true" title="Use DOB + Postcode below to complete JARVIS MFA Step 1">
+                                            <i class="bi bi-question-circle-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row d-none mfa_status" id="NUMBER_VERIFICATION_FAIL">
+                                <div class="col-6 custom-col d-flex">
+                                    <div class="mfa_title flex-grow-1"><span>MFA&nbsp;<strong>Not</strong>&nbsp;Started</span></div>
+                                    <div class="mfa_title mfa_title_icon"><i class="bi bi-exclamation-lg"></i></div>
+                                    <div class="mfa_arrow"></div>
+                                </div>
+                                <div class="col-6 custom-col">
+                                    <div class="mfa_description">
+                                        <span><strong>Next Step:&nbsp;</strong>Complete JARVIS MFA</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row d-none mfa_status" id="APPAUTH_INCOMPLETE">
+                                <div class="col-6 custom-col d-flex">
+                                    <div class="mfa_title flex-grow-1"><span>App Authentication Failed</span></div>
+                                    <div class="mfa_title mfa_title_icon"><i class="bi bi-exclamation-lg"></i></div>
+                                    <div class="mfa_arrow"></div>
+                                </div>
+                                <div class="col-6 custom-col">
+                                    <div class="mfa_description">
+                                        <span><strong>Next Step:&nbsp;</strong>Complete JARVIS MFA</span>
+                                        <span class="mfa_tooltip_icon" data-offset="42%p 10%p" data-toggle="tooltip" data-html="true" title="Customer has tried 'My Optus App Authentication', try another method">
+                                            <i class="bi bi-question-circle-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mx-0">
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                    <h6 class="accordion-header" id="headingOne">
+                                        <a type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="cust_details_header">
+                                            <b>CUSTOMER DETAILS</b><i id="cust_details_icon" class="bi bi-chevron-up"></i>
+                                        </a>
+                                    </h6>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                                        <div class="accordion-body row">
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-4 data_header_left" id="call-id">
+                                                        <span class="custom-text-align"><b>Call ID</b></span>
+                                                    </div>
+                                                    <div class="col-6 data_content_left"><a class="text_content" id="initial_master_contact_id">593407954778</a></div>
+                                                    <div class="col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="initial_master_contact_id_copy">
+                                                            <i class="bi bi-files"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-4 data_header_right" id="service-no">
+                                                        <span class="custom-text-align" data-toggle="tooltip" data-placement="top" title="The phone number(s) associated with the customer's account. May be identical to contact no.">
+                                                            <b>Service no.</b>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-6 data_content_right"><a class="text_content" id="display_service_number">0488120076</a></div>
+                                                    <div class="col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="display_service_number_copy"><i class="bi bi-files"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-4 data_header_left" id="contact-no">
+                                                        <span class="custom-text-align" data-toggle="tooltip" data-placement="top" title="The phone number the customer has used to call Optus"><b>Contact no.</b></span>
+                                                    </div>
+                                                    <div class="col-6 data_content_left"><a class="text_content" id="display_calling_number">0414123456</a></div>
+                                                    <div class="col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="display_calling_number_copy"><i class="bi bi-files"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 display_account_number_details d-none">
+                                                <div class="row">
+                                                    <div class="col col-4 data_header_right" id="account-no">
+                                                        <span class="custom-text-align" data-toggle="tooltip" data-placement="top" title="The unique ID applied to the customer's account"><b>Account no.</b></span>
+                                                    </div>
+                                                    <div class="col col-6 data_content_right"><a class="text_content" id="display_account_number">——</a></div>
+                                                    <div class="col col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="display_account_number_copy"><i class="bi bi-files"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mx-0" id="verified_details_section">
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                    <h6 class="accordion-header" id="headingTwo">
+                                        <a type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="verified_details_header">
+                                            <b>VERIFIED DETAILS</b><i id="verified_details_icon" class="bi bi-chevron-up"></i>
+                                        </a>
+                                    </h6>
+                                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
+                                        <div class="accordion-body row">
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-4 data_header_left">
+                                                        <span class="custom-text-align"><b>JARVIS Customer ID</b></span>
+                                                    </div>
+                                                    <div class="col-6 data_content_left"><a class="text_content" id="display_customer_id">80074993</a></div>
+                                                    <div class="col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="display_customer_id_copy"><i class="bi bi-files"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row d-none step2_incomplete_row">
+                                                    <div class="col-4 data_header_right">
+                                                        <span class="custom-text-align"><b>DOB</b></span>
+                                                    </div>
+                                                    <div class="col-6 data_content_right"><a class="text_content" id="ccai_auth_dob"></a></div>
+                                                    <div class="col-2 copy-btn-wrapper">
+                                                        <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="ccai_auth_dob_copy"><i class="bi bi-files"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-0 d-none" id="verified_details_row">
+                                                <div class="col-6">
+                                                    <div class="row">
+                                                        <div class="col-4 data_header_left">
+                                                            <span class="custom-text-align"><b>JARVIS Contact ID</b></span>
+                                                        </div>
+                                                        <div class="col-6 data_content_left"><a class="text_content" id="display_jarvis_contact_id">80074122</a></div>
+                                                        <div class="col-2 copy-btn-wrapper">
+                                                            <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="display_jarvis_contact_id_copy">
+                                                                <i class="bi bi-files"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="row d-none step2_incomplete_row">
+                                                        <div class="col-4 data_header_right">
+                                                            <span class="custom-text-align"><b>Postcode</b></span>
+                                                        </div>
+                                                        <div class="col-6 data_content_right"><a class="text_content" id="ccai_auth_postcode"></a></div>
+                                                        <div class="col-2 copy-btn-wrapper">
+                                                            <button type="button" class="btn btn-light copy-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="COPY" id="ccai_auth_postcode_copy"><i class="bi bi-files"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mx-0 d-none" id="outbound_row">
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                    <h6 class="accordion-header" id="headingThree">
+                                        <a type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="outbound_details_header">
+                                            <b>Outbound Information</b><i id="outbound_icon" class="bi bi-chevron-up"></i>
+                                        </a>
+                                    </h6>
+                                    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col col-3 data_header_left">
+                                                    <span class="custom-text-align"><b>Outbound campaign</b></span>
+                                                </div>
+                                                <div class="col col-auto data_content_left"><a class="text_content" id="display_campaign_name"></a></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-3 data_header_left">
+                                                    <span class="custom-text-align"><b>Group</b></span>
+                                                </div>
+                                                <div class="col col-auto data_content_left"><a class="text_content" id="display_campaign_group"></a></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-3 data_header_left">
+                                                    <span class="custom-text-align"><b>Offer description</b></span>
+                                                </div>
+                                                <div class="col col-auto data_content_left"><a class="text_content" id="display_campaign_offer_desc"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row mx-0" id="transfer_history_main">
+                            <div class="bg-white rounded col-sm-12">
+                                <div class="card">
+                                    <h5 class="card-header">Transfer History</h5>
+                                    <div class="card-body" id="transfer_history_card">
+                                        <div class="row overflow-auto" id="transfer_inner_row">
+                                            <div class="col-auto"><h5 class="card-title">No Transfers</h5></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="position-absolute" id="convo-summary-open"><img src="https://www.optus.com.au/content/dam/agentwidgets/cxone/note-button.svg" alt="note" /></div>
+                <div class="col-4 no-gutters pl-0 pr-0" id="convo-summary">
+                    <span class="position-absolute" id="convo-summary-close"> <img src="https://www.optus.com.au/content/dam/agentwidgets/cxone/cross.svg" alt="close" /> </span>
+                    <iframe
+                        id="vcsframe"
+                        src="https://agentwidgets-uat.apps.gnp.aws.optus.com.au/voice-widgets-frontend/?q1=amFydmlzQ29udGFjdElkPSZhZ2VudElkPWNwNjc1NTU0Jmdvb2dsZUNvbnZlcnNhdGlvbklkPUJ1c05vLTQ2MDE3NjJfQ29udGFjdElkLTU5MzQwNzk1NDc3OCZwcm9kdWN0VHlwZT0mZmVhdHVyZXM9&q2=sM6wT9AzpusoIeGaBeYUG8qFIw_JgfUv8sE9WD2dOsw"
+                        allow="clipboard-write"
+                        style="border: none;"
+                        width="100%"
+                        height="100%"
+                        title="Agent Assist"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://appauth-static-website-dev.s3.ap-southeast-2.amazonaws.com/cxone-agentview.js"></script>
+    </body>
+</html>
